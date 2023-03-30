@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1298</width>
+    <height>653</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #1e293b</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="gb_otoparkBilgileri">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>621</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(15, 23, 42);
+font: 600 10pt &quot;Segoe UI&quot;;
+border:0;
+border-radius:5px;
+color: rgb(240, 245, 245);
+
+</string>
+    </property>
+    <property name="title">
+     <string>Otopark Bilgileri</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>50</y>
+       <width>321</width>
+       <height>221</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QLabel" name="lb_kapiDurumu">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:700;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>Kapalı</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lb_aracSayisi">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:700;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>9/32</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lb_yanginAlarmi">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:700;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>Yok</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_10">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:700;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>12:43:53</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_12">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+padding-left:2px;
+font-weight:700;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>03/29/2023</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>50</y>
+       <width>201</width>
+       <height>221</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:600;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>Kapı Durumu:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:600;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>Araç Sayısı:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_8">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:600;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>Yangın Durumu:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_9">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+font-weight:600;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>Saat:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_11">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+padding-left:2px;
+font-weight:600;
+font-size:20px</string>
+        </property>
+        <property name="text">
+         <string>Tarih:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="gb_kamera">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>10</y>
+      <width>611</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(15, 23, 42);
+font: 600 10pt &quot;Segoe UI&quot;;
+border:0;
+border-radius:5px;
+color: rgb(240, 245, 245);
+
+
+</string>
+    </property>
+    <property name="title">
+     <string>Kamera Görüntüsü</string>
+    </property>
+    <widget class="QLabel" name="lb_kamera">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>591</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>cars/mercedes.jpg</pixmap>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="gb_sistemKontrol">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>320</y>
+      <width>621</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(15, 23, 42);
+font: 600 10pt &quot;Segoe UI&quot;;
+border:0;
+border-radius:5px;
+color: rgb(240, 245, 245);
+</string>
+    </property>
+    <property name="title">
+     <string>Sistem Kontrol</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>231</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Plaka No:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_plakaNo">
+          <property name="styleSheet">
+           <string notr="true">border-radius: 4px;
+border: 1px solid #e0e4e7;
+padding: 3px 5px;
+background-color:#e2e8f0;
+color:#0f172a;
+letter-spacing:2px</string>
+          </property>
+          <property name="text">
+           <string>34ABC562</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #81E6D9;
+border-radius: 5px;
+padding: 6px 0px;
+color:#81E6D9;
+font: 700 10pt &quot;Segoe UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Araç Girişi Yap</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QPushButton" name="btn_aracSec">
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>20</y>
+       <width>151</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 2px solid #81E6D9;
+border-radius: 8px;
+padding: 8px 4px;
+color:#81E6D9;
+font: 700 9pt &quot;Segoe UI&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Arac Sec</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>170</y>
+       <width>231</width>
+       <height>103</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QPushButton" name="btn_kapiyiAc">
+        <property name="styleSheet">
+         <string notr="true">border: 2px solid #81E6D9;
+border-radius: 8px;
+padding: 8px 4px;
+color:#81E6D9;
+font: 700 9pt &quot;Segoe UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Kapıyı Aç </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_kapiyiKapat">
+        <property name="styleSheet">
+         <string notr="true">border: 2px solid #81E6D9;
+border-radius: 8px;
+padding: 8px 4px;
+color:#81E6D9;
+font: 700 9pt &quot;Segoe UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Kapıyı Kapat</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>170</y>
+       <width>201</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <widget class="QPushButton" name="btn_sistemiBaslat">
+        <property name="styleSheet">
+         <string notr="true">border: 2px solid #4ade80;
+border-radius: 8px;
+padding: 8px 4px;
+color:#4ade80;
+font: 700 9pt &quot;Segoe UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Sistemi Başlat</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_sistemiKapat">
+        <property name="styleSheet">
+         <string notr="true">border: 2px solid #f43f5e;
+border-radius: 8px;
+padding: 8px 4px;
+color:#f43f5e;
+font: 700 9pt &quot;Segoe UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Sistemi Kapat</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>120</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>PORT:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox">
+        <property name="styleSheet">
+         <string notr="true">background-color:#fff;
+color:black</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>COM3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>COM4</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>COM5</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="gb_aracBilgileri">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>320</y>
+      <width>611</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(15, 23, 42);
+font: 600 10pt &quot;Segoe UI&quot;;
+border:0;
+border-radius:5px;
+color: rgb(240, 245, 245);
+</string>
+    </property>
+    <property name="title">
+     <string>Araç Bilgileri</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>179</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_7">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 25px;
+font-size:22px;
+text-align:center</string>
+        </property>
+        <property name="text">
+         <string>Üye ID:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_13">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 25px;
+font-size:22px;
+text-align:center</string>
+        </property>
+        <property name="text">
+         <string>Plaka:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 25px;
+font-size:22px;
+</string>
+        </property>
+        <property name="text">
+         <string>Araç Sahibi:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 25px;
+font-size:22px;
+</string>
+        </property>
+        <property name="text">
+         <string>Giriş Saati:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+padding: 0px 25px;
+font-size:22px;
+</string>
+        </property>
+        <property name="text">
+         <string>Çıkış Saati:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>40</y>
+       <width>361</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QLabel" name="lb_uyeID">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 20px;
+font-size:22px;
+letter-spacing:1px</string>
+        </property>
+        <property name="text">
+         <string>2165486854646</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lb_aracPlaka">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 20px;
+font-size:22px;
+letter-spacing:1px</string>
+        </property>
+        <property name="text">
+         <string>34 ABC 556</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lb_aracSahibi">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 20px;
+font-size:22px;
+letter-spacing:1px</string>
+        </property>
+        <property name="text">
+         <string>Berat Hazer</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lb_girisSaati">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+border-bottom:1px solid gray;
+padding: 0px 20px;
+font-size:22px;
+letter-spacing:1px</string>
+        </property>
+        <property name="text">
+         <string>15 : 03</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lb_cikisSaati">
+        <property name="styleSheet">
+         <string notr="true">border-radius:0px;
+padding: 0px 20px;
+font-size:22px;
+letter-spacing:1px</string>
+        </property>
+        <property name="text">
+         <string>19 : 30</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
