@@ -9,6 +9,7 @@ import cv2
 import easyocr
 import imutils
 import numpy as np
+import requests
 
 reader = easyocr.Reader(['en'])
 
@@ -18,37 +19,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QImage
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
-#test kullanıcıları
-uyeler = {
-    "38AK227": {
-        "uyeID": "232156645642315",
-        "aracSahibi": "Berat Hazer",
-        "plakaNo": "38AK227",
-        "girisSaati": "15:06",
-        "cikisSaati": "20:00"
-    },
-    "34DYK835": {
-        "uyeID": "32158655642315",
-        "aracSahibi": "Ahmet Tatyuz",
-        "plakaNo": "34DYK835",
-        "girisSaati": "12:01",
-        "cikisSaati": "18:32"
-    },
-    "06UU777": {
-        "uyeID": "532156645642315",
-        "aracSahibi": "Berkan Filiz",
-        "plakaNo": "06UU777",
-        "girisSaati": "09:12",
-        "cikisSaati": "17:06"
-    },
-    "MSJ5027": {
-        "uyeID": "832155625442315",
-        "aracSahibi": "John Doe",
-        "plakaNo": "MSJ5027",
-        "girisSaati": "13:02",
-        "cikisSaati": "15:06"
-    }
-}
+BASE_URL = "http://localhost:8000/api"
+API_KEY = "29b068e5f73f77da112c8aa6435993bb"
 
 
 class Ui_MainWindow(object):
@@ -381,7 +353,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
         # Butonların fonksiyon bağlantıları
         self.btn_aracSec.clicked.connect(self.loadImage)
         self.pushButton.clicked.connect(self.manuelAracGiris)
@@ -399,7 +370,6 @@ class Ui_MainWindow(object):
         msgBox.setDefaultButton(QMessageBox.Ok)
         returnValue = msgBox.exec()
         return returnValue
-
 
     def manuelAracGiris(self):
         plaka = self.le_plakaNo.text()
@@ -449,7 +419,7 @@ class Ui_MainWindow(object):
         try:
             # plaka araçların alt kısmında bulunduğu için resmin yukarda kalan kısmını kırptım.
             x, y, ch = image.shape
-            halfImage = image[int(x / 2):x, 0:y]
+            halfImage = image[int(x * 0.6):x, 0:y]
 
             gray = cv2.cvtColor(halfImage, cv2.COLOR_BGR2GRAY)
 
@@ -482,7 +452,9 @@ class Ui_MainWindow(object):
             cv2.drawContours(maske, [border], 0, (255, 255, 255), -1)
 
             filteredPlate = cv2.bitwise_and(halfImage, halfImage, mask=maske)
-            #cv2.imshow("FilteredPlate", filteredPlate)
+
+            # cv2.imshow("FilteredPlate", filteredPlate)
+
             (x, y) = np.where(maske == 255)
             (x_min, y_min) = (np.min(x), np.min(y))
             (x_max, y_max) = (np.max(x), np.max(y))
@@ -493,7 +465,6 @@ class Ui_MainWindow(object):
             # Resimden plaka okuma
             results = reader.readtext(correctPlate, decoder="beamsearch", blocklist=" ",
                                       allowlist="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-
 
             bestMatch = ""
             if results:
@@ -516,7 +487,7 @@ class Ui_MainWindow(object):
 
             if bestMatch:
                 self.aracGirisiYap(bestMatch)
-            #cv2.imshow("currentPlate", correctPlate)
+            # cv2.imshow("currentPlate", correctPlate)
             cv2.waitKey(0)
 
         except:
@@ -525,21 +496,34 @@ class Ui_MainWindow(object):
         finally:
             cv2.destroyAllWindows()
 
-
-
     # arac girisi kontrol fonksiyonu
     def aracGirisiYap(self, plaka):
 
         try:
-            user = uyeler.get(plaka)
+            response = requests.get(BASE_URL + "/customers/find?plate=" + plaka + "&api_key=" + API_KEY)
+            customer = response.json()
+            if customer["success"]:
+                parkData = {
+                    "plate": plaka,
+                    "customerId": customer["customer"][0]["_id"]
+                }
+                response = requests.post(BASE_URL + "/parks/new", parkData)
+                data = response.json()
+                print(data)
+                if data["success"]:
+                    girisSaati = data["park"]["entry_time"]
+                    #girisSaatini okunabilir bir saate dönüştürdükten sonra yazdırıcam.
+                    self.lb_uyeID.setText(customer["customer"][0]["_id"])
+                    self.lb_aracPlaka.setText(customer["customer"][0]["plate"])
+                    self.lb_aracSahibi.setText(customer["customer"][0]["fullName"])
+                    self.lb_girisSaati.setText(girisSaati)
+                    self.lb_cikisSaati.setText("--:--")
+                    self.ShowMessage(QMessageBox.Information, data["message"], "Başarılı.")
 
-            if user is not None:
+                else:
+                    self.ShowMessage(QMessageBox.Warning, data["error"], "Hata!")
 
-                self.lb_uyeID.setText(user.get("uyeID"))
-                self.lb_aracPlaka.setText(user.get("plakaNo"))
-                self.lb_aracSahibi.setText(user.get("aracSahibi"))
-                self.lb_girisSaati.setText(user.get("girisSaati"))
-                self.lb_cikisSaati.setText(user.get("cikisSaati"))
+
             else:
                 returnValue = self.ShowMessage(QMessageBox.Warning, "Plaka Sisteme Kayıtlı Değil.", "Uyarı")
                 if returnValue == QMessageBox.Ok:
@@ -547,7 +531,6 @@ class Ui_MainWindow(object):
 
         except:
             returnValue = self.ShowMessage(QMessageBox.Critical, "Araç Girişinde Bir Hata Oluştu.", "Uyarı")
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
