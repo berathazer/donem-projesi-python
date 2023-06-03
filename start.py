@@ -15,7 +15,7 @@ areatxt = open("area.txt","a")
 aspecttxt = open("aspect_ratio.txt","a")
 
 capture = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-
+capture2 = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 plakalar = dict({})
 
 def filtre(string):
@@ -65,8 +65,8 @@ def plakayiOku(image, x, y, frame):
 
 while True:
     ret, frame = capture.read()
-
-
+    ret, frame2 = capture2.read()
+    cv2.imshow("kamera",frame2)
     if not ret:
         break
 
