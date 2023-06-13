@@ -14,7 +14,7 @@ import threading
 from datetime import datetime
 
 import cv2
-import easyocr
+# import easyocr
 import numpy as np
 import pytesseract
 import requests
@@ -31,7 +31,7 @@ from PyQt5.QtWidgets import QMessageBox
 BASE_URL = "http://localhost:8000/api"
 API_KEY = "29b068e5f73f77da112c8aa6435993bb"
 
-reader = easyocr.Reader(['en'])
+# reader = easyocr.Reader(['en'])
 
 plakalar = dict({})
 
@@ -39,8 +39,9 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Users\berat\AppData\Local\Programs\
 custom_tesseract_config = r'--oem 3 --psm 6'
 
 capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-#capture2 = cv2.VideoCapture(1)
+# capture2 = cv2.VideoCapture(1)
 dateCounter = 0
+
 
 
 class Ui_MainWindow(object):
@@ -518,39 +519,40 @@ class Ui_MainWindow(object):
             self.ShowMessage(QMessageBox.Warning, "Resim Değiştirilirken Hata Oluştu.", "Uyarı")
 
     def plakayiOku(self, image, x, y, frame):
+        try:
+            plaka = pytesseract.image_to_string(image, config=custom_tesseract_config)
 
-        plaka = pytesseract.image_to_string(image, config=custom_tesseract_config)
+            plaka = self.filtre(plaka)
 
-        plaka = self.filtre(plaka)
+            if self.turkiye_plakasimi(plaka):
 
-        if self.turkiye_plakasimi(plaka):
+                response = requests.get(BASE_URL + "/customers/find?plate=" + plaka + "&api_key=" + API_KEY)
+                data = response.json()
 
-            response = requests.get(BASE_URL + "/customers/find?plate=" + plaka + "&api_key=" + API_KEY)
-            data = response.json()
+                if (data["success"]):
+                    self.aracGirisiYap(plaka, data["customer"][0])
+                else:
+                    print(data["error"])
 
-            if (data["success"]):
-                self.aracGirisiYap(plaka, data["customer"][0])
-                print(data["customer"])
-            else:
-                print(data["error"])
+                if plaka not in plakalar:
+                    plakalar[plaka] = 1
+                    print(f"Okunan Plaka: {plaka}, Okunma Sayisi: {1}")
+                else:
+                    plakalar[plaka] += 1
+                    print(f"Okunan Plaka: {plaka}, Okunma Sayisi: {plakalar[plaka]}")
 
-            if plaka not in plakalar:
-                plakalar[plaka] = 1
-                print(f"Okunan Plaka: {plaka}, Okunma Sayisi: {1}")
-            else:
-                plakalar[plaka] += 1
-                print(f"Okunan Plaka: {plaka}, Okunma Sayisi: {plakalar[plaka]}")
-
-            # cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
-            # cv2.putText(frame, plaka, (x - 10, y - 20), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), thickness=3)
+                # cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
+                # cv2.putText(frame, plaka, (x - 10, y - 20), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), thickness=3)
+        except Exception as e:
+            print(str(e))
 
     def definePlate(self):
         try:
             while True:
                 ret, frame = capture.read()
 
-                #ret2, frame2 = capture2.read()
-                #cv2.imshow("kamera", frame2)
+                # ret2, frame2 = capture2.read()
+                # cv2.imshow("kamera", frame2)
 
                 if not ret:
                     break
@@ -616,12 +618,14 @@ class Ui_MainWindow(object):
     def aracGirisiYap(self, plate, customer=None):
 
         try:
+
             if customer is None:
                 response = requests.get(BASE_URL + "/customers/find?plate=" + plate + "&api_key=" + API_KEY)
                 customer = response.json()
 
                 if customer["success"] is False:
                     return self.ShowMessage(QMessageBox.Warning, "Plaka Sisteme Kayıtlı Değil.", "Uyarı")
+                customer = customer['customer'][0]
 
             parkData = {
                 "plate": plate,
@@ -630,7 +634,6 @@ class Ui_MainWindow(object):
 
             response = requests.post(BASE_URL + "/parks/new", parkData)
             data = response.json()
-            print("ParkData: ", data)
 
             if data["success"]:
                 girisSaati = data["park"]["entry_time"]
@@ -656,9 +659,9 @@ class Ui_MainWindow(object):
             else:
                 # self.ShowMessage(QMessageBox.Warning, data["error"], "Hata!")
                 print(data["error"])
-        except:
+        except Exception as e:
             # returnValue = self.ShowMessage(QMessageBox.Critical, "Araç Girişinde Bir Hata Oluştu.", "Uyarı")
-            print("araç girişinde hata")
+            print("araç girişinde hata: " + str(e))
 
     def aracCikisiYap(self):
         try:
@@ -675,14 +678,26 @@ class Ui_MainWindow(object):
             if customer["success"]:  # çıkış işlemi başarılı.
                 receipt = customer["receipt"]
                 receipt_fee = receipt["receipt_fee"]
-                print(receipt, receipt_fee)
+                print(customer)
 
                 cikisSaati = customer["receipt"]["createdAt"]
-
-                # MongoDB saati Python datetime nesnesine dönüştürme
                 python_saat = datetime.strptime(cikisSaati, "%Y-%m-%dT%H:%M:%S.%f%z")
                 turkiye_saati = pytz.timezone('Europe/Istanbul')
                 formatli_saat = python_saat.astimezone(turkiye_saati).strftime("%d-%m-%Y %H:%M:%S")
+
+                park = customer["park"]
+                customer = customer["customer"]
+
+
+                girisSaati = park["entry_time"]
+                pythonSaati = datetime.strptime(girisSaati, "%Y-%m-%dT%H:%M:%S.%f%z")
+                #trSaati = pytz.timezone('Europe/Istanbul')
+                formatliSaat = pythonSaati.strftime("%d-%m-%Y %H:%M:%S")
+
+                self.lb_uyeID.setText(customer["_id"])
+                self.lb_aracPlaka.setText(customer["plate"])
+                self.lb_aracSahibi.setText(customer["fullName"])
+                self.lb_girisSaati.setText(formatliSaat)
 
                 self.lb_cikisSaati.setText(formatli_saat)
                 self.CloseTheDoor()
@@ -692,8 +707,9 @@ class Ui_MainWindow(object):
             else:
                 returnValue = self.ShowMessage(QMessageBox.Warning, customer["error"], "Uyarı")
 
-        except:
-            returnValue = self.ShowMessage(QMessageBox.Critical, "Araç Çıkışında Bir Hata Oluştu.", "Uyarı")
+        except Exception as e:
+            #returnValue = self.ShowMessage(QMessageBox.Critical, "Araç Çıkışında Bir Hata Oluştu.", "Uyarı")
+            print(str(e))
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
